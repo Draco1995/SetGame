@@ -3,4 +3,8 @@
     <string name="multiple_player">Multiple Player</string>
     <string name="setting">Setting</string>
     <string name="app_name">SetGame</string>
+
+    <string name="title_activity_game">GameActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.muxinzhi.www.setgame;
+package com.muxinzhi.www.activities;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
