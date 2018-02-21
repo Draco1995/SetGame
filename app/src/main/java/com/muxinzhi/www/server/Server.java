@@ -9,4 +9,7 @@ import com.muxinzhi.www.message.MessageRequest;
 
 abstract public class Server {
     abstract public MessageRecieve request(MessageRequest msg);
+    abstract public int[]  initialGame(int cardNumbers);
+
+    public abstract int[] requestRemoval(int serialNumber, int serialNumber1, int serialNumber2);
 }

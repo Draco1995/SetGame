@@ -13,4 +13,14 @@ public class ServerRemote extends Server {
     public MessageRecieve request(MessageRequest msg) {
         return null;
     }
+
+    @Override
+    public int[] initialGame(int cardNumbers) {
+        return null;
+    }
+
+    @Override
+    public int[] requestRemoval(int serialNumber, int serialNumber1, int serialNumber2) {
+        return new int[0];
+    }
 }

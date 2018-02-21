@@ -17,4 +17,128 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TableLayout
+        android:id="@+id/tableLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="16dp">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.muxinzhi.www.set.Card
+                android:id="@+id/card1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bbuton_rounded" />
+
+            <com.muxinzhi.www.set.Card
+                android:id="@+id/card2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <com.muxinzhi.www.set.Card
+                android:id="@+id/card3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <com.muxinzhi.www.set.Card
+                android:id="@+id/card4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.muxinzhi.www.set.Card
+                android:id="@+id/card5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <com.muxinzhi.www.set.Card
+                android:id="@+id/card6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <com.muxinzhi.www.set.Card
+                android:id="@+id/card7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <com.muxinzhi.www.set.Card
+                android:id="@+id/card8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.muxinzhi.www.set.Card
+                android:id="@+id/card9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <com.muxinzhi.www.set.Card
+                android:id="@+id/card10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <com.muxinzhi.www.set.Card
+                android:id="@+id/card11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <com.muxinzhi.www.set.Card
+                android:id="@+id/card12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.muxinzhi.www.set.Card
+                android:id="@+id/card13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <com.muxinzhi.www.set.Card
+                android:id="@+id/card14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <com.muxinzhi.www.set.Card
+                android:id="@+id/card15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <com.muxinzhi.www.set.Card
+                android:id="@+id/card16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </TableRow>
+    </TableLayout>
+
+    <Button
+        android:id="@+id/start_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:onClick="startGame"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="@+id/tableLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.03"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
 </android.support.constraint.ConstraintLayout>
