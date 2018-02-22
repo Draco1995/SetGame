@@ -3,14 +3,16 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="bbutton_danger_pressed">#ffd2322d</color>
+    <color name="bbutton_danger_pressed">#777</color>
     <color name="bbutton_danger_edge">#ffd43f3a</color>
     <color name="bbutton_danger_disabled">#a5d9534f</color>
     <color name="bbutton_danger_disabled_edge">#a5d43f3a</color>
-    <color name="bbutton_danger">#ffd9534f</color>
+    <color name="bbutton_danger">#999</color>
     <color name="text_font_white">#FFFFFF</color>
     <color name="bbutton_green">#00ff00</color>
-    <color name="bbutton_initial">#999999</color>
+    <color name="bbutton_initial">#ffffff</color>
     <color name="bbutton_correct">#0ff000</color>
-    <color name="bbutton_wrong">#0000ff</color>
+    <color name="bbutton_wrong">#ff0000</color>
+    <color name="bbutton_pressed">#777</color>
+    <color name="bbutton_rounded">#997</color>
 </resources>

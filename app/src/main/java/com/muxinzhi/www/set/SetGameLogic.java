@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.muxinzhi.www.server.Server;
 import com.muxinzhi.www.server.ServerLocal;
+import com.muxinzhi.www.setgame.R;
 
 /**
  * Created by MSI on 2018/2/19.
@@ -26,7 +28,7 @@ public class SetGameLogic extends Logic {
             mediator = new Mediator();
             server = new ServerLocal();
             cardSet = new CardSet(activity, this.cardNumbers , mediator);
-            scoreBoard = new ScoreBoard();
+            scoreBoard = new ScoreBoard((TextView)activity.findViewById(R.id.scoreBoard));
             mediator.setParameters(cardSet,scoreBoard,server);
         }catch(Exception e){
             activity.finish();

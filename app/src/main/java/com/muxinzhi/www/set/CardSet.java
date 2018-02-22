@@ -2,6 +2,8 @@ package com.muxinzhi.www.set;
 
 import android.app.Activity;
 import android.util.Log;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.muxinzhi.www.exceptions.NoSuchIdException;
 import com.muxinzhi.www.setgame.R;
@@ -17,10 +19,12 @@ public class CardSet{
     private Mediator mediator;
     Card[] cardList;
     final int cardNumbers;
+    TextView textView;
     ConcurrentLinkedQueue<Card> queue = new ConcurrentLinkedQueue<Card>();
     boolean[] hash = new boolean[85];
     public CardSet(Activity activity, int cardNumbers,Mediator mediator) throws NoSuchIdException {
         cardList = new Card[cardNumbers+1];
+        textView = activity.findViewById(R.id.textView);
         this.cardNumbers = cardNumbers;
         this.mediator = mediator;
         try{
@@ -43,47 +47,71 @@ public class CardSet{
             if(!queue.contains(card)&&queue.size()<=2){
                 queue.add(card);
                 card.clicked = true;
+                card.setLayout(R.drawable.bbuton_pressed);
             }else{
-                if(queue.remove(card))
+                if(queue.remove(card)) {
                     card.clicked = false;
+                    card.setLayout(R.drawable.bbuton_rounded);
+                }
                 else{
                     Log.i("CardSet","fail to remove card:"+card.serialNumber);
                 }
             }
             if(queue.size()==3){
-                Card a = queue.remove();
-                Card b = queue.remove();
-                Card c = queue.remove();
-                Card[] cc = {a,b,c};
-                if(CardComparator.isValid(a,b,c)){
-                    int[] numbers = mediator.requestRemoval(a.serialNumber,b.serialNumber,
-                            c.serialNumber);
-                    setClickable(false);
-                    if(numbers!=null){
-                        a.setBackgroundResource(R.drawable.bbuton_correct);
-                        setCards(cc,numbers); //一个问题为如果
+                new Thread(){
+                    public void run(){
+                        testValid();
                     }
-
-                }else{
-                    setClickable(false);
-                    a.clicked = false;
-                    b.clicked = false;
-                    c.clicked = false;
-                    a.setBackgroundResource(R.drawable.bbuton_wrong);
-                    a.invalidate();
-                    b.invalidate();
-                    c.invalidate();
-                    try {
-                        TimeUnit.SECONDS.sleep(1);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace( );
-                    }
-                    a.setBackgroundResource(R.drawable.bbuton_rounded);
-                    setClickable(true);
-                }
+                }.start();
             }
         }
 
+    }
+    private void testValid(){
+        Card a = queue.poll();
+        Card b = queue.poll();
+        Card c = queue.poll();
+        Card[] cc = {a,b,c};
+        try {
+            TimeUnit.MILLISECONDS.sleep(50);
+        } catch (InterruptedException e) {
+            e.printStackTrace( );
+        }
+
+        if(CardComparator.isValid(a,b,c)){
+            int[] numbers = mediator.requestRemoval(a.serialNumber,b.serialNumber,
+                    c.serialNumber);
+            setClickable(false);
+            if(numbers!=null){
+                showResult(a,b,c,R.drawable.bbuton_correct);
+                setCards(cc,numbers); //一个问题为如果
+            }
+
+        }else{
+            showResult(a,b,c,R.drawable.bbuton_wrong);
+        }
+    }
+
+    private void showResult(Card a,Card b,Card c,int l){
+        setClickable(false);
+        a.setLayout(l);
+        b.setLayout(l);
+        c.setLayout(l);
+        /*
+        if(l==R.drawable.bbuton_correct)
+            textView.setText("Correct!");
+        else
+            textView.setText("Wrong");*/
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace( );
+        }
+       // textView.setText("");
+        a.setLayout(R.drawable.bbuton_rounded);
+        b.setLayout(R.drawable.bbuton_rounded);
+        c.setLayout(R.drawable.bbuton_rounded);
+        setClickable(true);
     }
 
     private void setClickable(boolean flag){
@@ -106,7 +134,7 @@ public class CardSet{
         for(int i=0;i<3;i++){
             CardPhraser.setCard(cards[i],numbers[i]);
             cards[i].setSerialNumber(numbers[i]);
-            cardList[i].invalidate();
+            cards[i].invalidate();
         }
     }
 
@@ -117,7 +145,7 @@ public class CardSet{
             cardList[i].setSerialNumber(numbers[i-1]);
             cardList[i].setClickable(true);
             cardList[i].startListening();
-            cardList[i].invalidate();
+            cardList[i].setLayout(R.drawable.bbuton_rounded);
         }
     }
 }

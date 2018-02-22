@@ -37,12 +37,13 @@ public class Card extends android.support.v7.widget.AppCompatButton implements V
     private Rect mBounds;
     private Painter painter;
     private CardSet cardSet;
-
+    protected int layout = R.drawable.bbuton_initial;
 
     public Card(Context context, AttributeSet attrs) {
         super(context, attrs);
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mBounds = new Rect( );
+        //layout =
         this.setClickable(false);
     }
 
@@ -50,17 +51,13 @@ public class Card extends android.support.v7.widget.AppCompatButton implements V
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         //Log.i("124",""+clicked);
-        if(clicked){
-            this.setBackgroundResource(R.drawable.bbuton_rounded);
-        }else{
-            this.setBackgroundResource(R.drawable.bbuton_pressed);
-        }
+        this.setBackgroundResource(layout);
+        Log.i("layout",""+layout);
         //canvas.drawRect(0, 0, getWidth(), getHeight(), mPaint);
-        if(this.number!=0) {
+        if(serialNumber!=0) {
             mPaint.setColor(Color.BLACK);
             mPaint.setTextSize(60);
-
-            String text = String.valueOf(serialNumber);
+            String text = DigitsPhraser.phrase(serialNumber);
             mPaint.getTextBounds(text, 0, text.length( ), mBounds);
             float textWidth = mBounds.width( );
             float textHeight = mBounds.height( );
@@ -71,7 +68,12 @@ public class Card extends android.support.v7.widget.AppCompatButton implements V
 
     @Override
     public void onClick(View v) {
-        cardSet.request(this);
+        final Card c = this;
+        new Thread(){
+            public void run(){
+                cardSet.request(c);
+            }
+        }.start();
     }
 
     public void setCardSet(CardSet cardSet) {
@@ -97,5 +99,11 @@ public class Card extends android.support.v7.widget.AppCompatButton implements V
 
     public void startListening() {
         setOnClickListener(this);
+    }
+
+    public void setLayout(int l){
+        layout = l;
+        Log.i("Setting Layout",""+this.layoutNumber+" "+l);
+        invalidate();
     }
 }
