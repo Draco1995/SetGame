@@ -42,31 +42,32 @@ public class CardSet{
         }
     }
 
-    void request(Card card){
-        synchronized(queue){
-            if(!queue.contains(card)&&queue.size()<=2){
-                queue.add(card);
-                card.clicked = true;
-                card.setLayout(R.drawable.bbuton_pressed);
-            }else{
-                if(queue.remove(card)) {
-                    card.clicked = false;
-                    card.setLayout(R.drawable.bbuton_rounded);
-                }
-                else{
-                    Log.i("CardSet","fail to remove card:"+card.serialNumber);
-                }
+    /**
+     * 修改queue,card
+     */
+    synchronized void request(Card card){
+        if(!queue.contains(card)&&queue.size()<=2){
+            queue.add(card);
+            card.clicked = true;
+            card.setLayout(R.drawable.bbuton_pressed);
+        }else{
+            if(queue.remove(card)) {
+                card.clicked = false;
+                card.setLayout(R.drawable.bbuton_rounded);
             }
-            if(queue.size()==3){
-                new Thread(){
-                    public void run(){
-                        testValid();
-                    }
-                }.start();
+            else{
+                Log.i("CardSet","fail to remove card:"+card.serialNumber);
             }
+        }
+        if(queue.size()==3){
+            testValid();
         }
 
     }
+
+    /**
+     * 修改queue,card,
+     */
     private void testValid(){
         Card a = queue.poll();
         Card b = queue.poll();
@@ -79,9 +80,9 @@ public class CardSet{
         }
 
         if(CardComparator.isValid(a,b,c)){
+            setClickable(false);
             int[] numbers = mediator.requestRemoval(a.serialNumber,b.serialNumber,
                     c.serialNumber);
-            setClickable(false);
             if(numbers!=null){
                 showResult(a,b,c,R.drawable.bbuton_correct);
                 setCards(cc,numbers); //一个问题为如果
@@ -91,7 +92,9 @@ public class CardSet{
             showResult(a,b,c,R.drawable.bbuton_wrong);
         }
     }
-
+    /**
+     * 修改card
+     */
     private void showResult(Card a,Card b,Card c,int l){
         setClickable(false);
         a.setLayout(l);
@@ -114,13 +117,22 @@ public class CardSet{
         setClickable(true);
     }
 
+    /**
+     * 修改card
+     * @param flag
+     */
     private void setClickable(boolean flag){
         for(int i = 1;i<=cardNumbers;i++){
             cardList[i].setClickable(flag);
         }
     }
 
-    private void setCards(Card[] cards,int numbers[]) {
+    /**
+     * 修改card,queue
+     * @param cards
+     * @param numbers
+     */
+    synchronized private void setCards(Card[] cards,int numbers[]) {
         for(int i = 0;i<2;i++){
             for(int j = i+1;j<=2;j++){
                 if(cards[i].layoutNumber<cards[j].layoutNumber){
@@ -134,6 +146,10 @@ public class CardSet{
         for(int i=0;i<3;i++){
             CardPhraser.setCard(cards[i],numbers[i]);
             cards[i].setSerialNumber(numbers[i]);
+            cards[i].clicked = false;
+            if(queue.contains(cards[i])){
+                queue.remove(cards[i]);
+            }
             cards[i].invalidate();
         }
     }

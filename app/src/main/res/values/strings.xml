@@ -78,4 +78,8 @@
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="Pref_server" />
     <string name="Server_IP">Server IP</string>
+
+
+    <string name="Real_Server_IP">10.0.2.2</string>
+    <string name="Real_Server_Port">9120</string>
 </resources>

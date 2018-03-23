@@ -27,10 +27,15 @@ public class Mediator {
     public void startGame(int cardNumbers) {
         int[] numbers = server.initialGame(cardNumbers);
         cardSet.startGame(numbers);
-        scoreBoard.startGame();
+        int[] playerInf = server.requestConnection();
+        scoreBoard.startGame(playerInf);
     }
 
     public int[] requestRemoval(int serialNumber, int serialNumber1, int serialNumber2) {
-        return server.requestRemoval(serialNumber,serialNumber1,serialNumber2);
+        return server.requestRemoval(serialNumber,serialNumber1,serialNumber2,scoreBoard.myself);
+    }
+
+    synchronized public void addScore(int player){
+        scoreBoard.addScore(player);
     }
 }
