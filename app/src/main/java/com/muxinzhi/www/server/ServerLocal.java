@@ -35,7 +35,8 @@ public class ServerLocal extends Server {
     }
 
     @Override
-    public int[] requestRemoval(int serialNumber, int serialNumber1, int serialNumber2, final int player) {
+    public int[] requestRemoval(int serialNumber, int serialNumber1, int serialNumber2,int a,int b
+                                ,int c,final int player) {
         if(!taken[serialNumber]&&!taken[serialNumber1]&&!taken[serialNumber2]){
             taken[serialNumber]=true;
             taken[serialNumber1]=true;

@@ -82,7 +82,7 @@ public class CardSet{
         if(CardComparator.isValid(a,b,c)){
             setClickable(false);
             int[] numbers = mediator.requestRemoval(a.serialNumber,b.serialNumber,
-                    c.serialNumber);
+                    c.serialNumber,a.layoutNumber,b.layoutNumber,c.layoutNumber);
             if(numbers!=null){
                 showResult(a,b,c,R.drawable.bbuton_correct);
                 setCards(cc,numbers); //一个问题为如果
@@ -132,6 +132,16 @@ public class CardSet{
      * @param cards
      * @param numbers
      */
+
+    public void remoteSetCards(int[] cards,int[] numbers){
+        Card[] c = new Card[3];
+        for(int i = 0 ;i<=2;i++){
+            c[i] = cardList[cards[i]];
+        }
+        showResult(c[0],c[1],c[2],R.drawable.bbuton_correct);
+        setCards(c,numbers);
+    }
+
     synchronized private void setCards(Card[] cards,int numbers[]) {
         for(int i = 0;i<2;i++){
             for(int j = i+1;j<=2;j++){

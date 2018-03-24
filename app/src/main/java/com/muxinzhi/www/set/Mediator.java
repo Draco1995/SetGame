@@ -31,11 +31,33 @@ public class Mediator {
         scoreBoard.startGame(playerInf);
     }
 
-    public int[] requestRemoval(int serialNumber, int serialNumber1, int serialNumber2) {
-        return server.requestRemoval(serialNumber,serialNumber1,serialNumber2,scoreBoard.myself);
+    public int[] requestRemoval(int serialNumber, int serialNumber1, int serialNumber2,int a,int b,
+                                int c) {
+        return server.requestRemoval(serialNumber,serialNumber1,serialNumber2,a,b,c,scoreBoard.myself);
     }
 
     synchronized public void addScore(int player){
         scoreBoard.addScore(player);
+    }
+
+    synchronized public void addScore(){
+        scoreBoard.addScore();
+    }
+
+    public void setCards(String m){
+        String[] msg = m.split(",");
+        final int[] cards = new int[3];
+        final int[] numbers = new int[3];
+        for(int i = 0;i<=2;i++){
+            numbers[i] = Integer.valueOf(msg[i]);
+            cards[i] = Integer.valueOf(msg[i+3]);
+        }
+        new Thread(){
+            @Override
+            public void run() {
+                cardSet.remoteSetCards(cards,numbers);
+            }
+        }.start();
+
     }
 }

@@ -25,11 +25,11 @@ public class ScoreBoard {
         playerNumbers = playerInf[0];
         name = new String[playerNumbers];
         score = new int[playerNumbers];
-        myself = playerInf[1]-1;
+        myself = playerInf[1];
         String s = "";
         for(int i = 0;i<name.length;i++){
             name[i] = "Player"+(i+1);
-            s += name[i]+":"+score[i];
+            s += name[i]+":"+score[i]+"\n";
         }
         setText(s);
     }
@@ -46,7 +46,7 @@ public class ScoreBoard {
     private void createText(){
         String s = "";
         for(int i = 0;i<name.length;i++){
-            s += name[i]+":"+score[i];
+            s += name[i]+":"+score[i]+"\n";
         }
         setText(s);
     }

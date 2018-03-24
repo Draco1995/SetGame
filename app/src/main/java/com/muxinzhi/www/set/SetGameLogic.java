@@ -50,6 +50,11 @@ public class SetGameLogic extends Logic {
         Log.i("","Game Started!");
         startButton.setVisibility(View.INVISIBLE);
         startButton.setClickable(false);
-        mediator.startGame(cardNumbers);
+        new Thread(){
+            public void run(){
+                mediator.startGame(cardNumbers);
+            }
+        }.start();
+
     }
 }

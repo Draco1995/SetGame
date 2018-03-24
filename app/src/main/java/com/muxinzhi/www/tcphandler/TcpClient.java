@@ -7,6 +7,7 @@ import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
+import java.util.concurrent.TimeUnit;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -16,6 +17,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
+import com.muxinzhi.www.server.ServerRemote;
 import com.muxinzhi.www.setgame.R;
 
 /**
@@ -34,8 +36,40 @@ public class TcpClient implements Runnable{
 
     String ip;
     String port;
+    ServerRemote sr;
 
-    private void sendMessage(String m){
+    private void recievedMessage(String m){
+        String[] res = m.split(":");
+        if(res[0].equals("System")){
+            Message msg = new Message();
+            msg.what = 0;
+            Bundle bundle = new Bundle();
+            bundle.putString("text",res[1]);
+            msg.setData(bundle);
+            handler.sendMessage(msg);
+        }else if(res[0].equals("SCORE")){
+            sr.addScore(res[1]);
+        }else{
+            sr.addResponse(m);
+        }
+
+    }
+
+    public void sendMessage(String m){
+        Message msg = new Message();
+        msg.what = 0x345;
+        msg.obj = m;
+        while(revHandler == null){
+            try {
+                TimeUnit.MILLISECONDS.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace( );
+            }
+        }
+        revHandler.sendMessage(msg);
+    }
+
+    private void sendMessageMain(String m){
         Message msg = new Message();
         msg.what = 0;
         Bundle bundle = new Bundle();
@@ -44,10 +78,11 @@ public class TcpClient implements Runnable{
         handler.sendMessage(msg);
     }
 
-    public TcpClient(Handler handler,String ip,String port) {
+    public TcpClient(Handler handler,String ip,String port, ServerRemote s) {
         this.handler = handler;
         this.ip = ip;
         this.port = port;
+        sr = s;
     }
     @SuppressLint("HandlerLeak") @Override
     public void run() {
@@ -57,7 +92,7 @@ public class TcpClient implements Runnable{
             Log.d("111111111111", "@@@@@@@@@@@@@@@@@@@@");
 //          s = new Socket("192.168.0.78", 8888);//此方法不能设定连接时限
             s.connect(new InetSocketAddress(ip, Integer.parseInt(port)), 5000);
-            sendMessage("Successfully Connected");
+            sendMessageMain("Successfully Connected");
             Message msg = new Message();
             msg.what = 1;
             handler.sendMessage(msg);
@@ -78,8 +113,8 @@ public class TcpClient implements Runnable{
                         while ((content = br.readLine()) != null) {
                             // 每当读取到来自服务器的数据之后，发送的消息通知程序
                             // 界面显示该数据
-                            sendMessage(content);
-                            Log.d("111111111111", content);
+                            recievedMessage(content);
+                            Log.d("Recieved", content);
                         }
                     } catch (IOException io) {
                         io.printStackTrace();
@@ -107,6 +142,7 @@ public class TcpClient implements Runnable{
                 }
 
             };
+            //sr.setTcpHandler(revHandler);
             // 启动Looper
             Looper.loop();
 
