@@ -29,7 +29,7 @@ public class ScoreBoard {
         String s = "";
         for(int i = 0;i<name.length;i++){
             name[i] = "Player"+(i+1);
-            s += name[i]+":"+score[i]+"\n";
+            s += name[i]+":"+score[i]+" ";
         }
         setText(s);
     }
@@ -46,7 +46,7 @@ public class ScoreBoard {
     private void createText(){
         String s = "";
         for(int i = 0;i<name.length;i++){
-            s += name[i]+":"+score[i]+"\n";
+            s += name[i]+":"+score[i]+" ";
         }
         setText(s);
     }

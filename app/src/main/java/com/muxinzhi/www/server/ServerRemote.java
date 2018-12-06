@@ -78,7 +78,6 @@ public class ServerRemote extends Server {
                 localHandler = new Handler(){
                     @Override
                     public void handleMessage(Message msg) {
-                        // 接收到UI线程的中用户输入的数据
                         String[] message = msg.obj.toString().split(" ");
                         mediator.addScore(Integer.valueOf(message[0]));
                         mediator.setCards(message[1]);
@@ -117,9 +116,9 @@ public class ServerRemote extends Server {
     }
 
     /**
-     * 正式开始游戏时（点击Start Button后）第一个调用的函数
-     * @param cardNumbers 需要多少卡牌
-     * @return 一系列数字，代表了卡牌的号码
+     *
+     * @param cardNumbers
+     * @return
      */
     @Override
     public int[] initialGame(int cardNumbers) {
@@ -154,14 +153,16 @@ public class ServerRemote extends Server {
                 numbers[i] = Integer.valueOf(m[i]);
             }
             mediator.addScore();
+
+
             return numbers;
         }
     }
 
     /**
-     * 第二个调用的函数，
-     * @return 第一个参数代表有多少玩家参与，第二个
-     * 参数代表本玩家的序列号
+     *
+     * @return
+     *
      */
     @Override
     public int[] requestConnection() {

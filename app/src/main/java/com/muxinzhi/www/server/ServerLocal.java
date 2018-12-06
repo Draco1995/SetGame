@@ -53,7 +53,7 @@ public class ServerLocal extends Server {
     public int[] requestConnection() {
         int[] a = new int[2];
         a[0] = 1;
-        a[1] = 1;
+        a[1] = 0;
         return a;
     }
 

@@ -52,7 +52,7 @@ public class GameActivity extends AppCompatActivity {
         TextView textView = findViewById(R.id.textView);
         textView.setText(message);
         scoreB = findViewById(R.id.scoreBoard);
-        scoreB.setText("121323");
+        scoreB.setText("Starting Game");
         int cardNumbers = 16;
         logic = new SetGameLogic(this,startButton, cardNumbers, handler, message, getApplication());
         if(message.equals(getString(R.string.single_player)))

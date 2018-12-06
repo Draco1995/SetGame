@@ -5,6 +5,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.RectF;
+import android.graphics.Path;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -43,6 +45,7 @@ public class Card extends android.support.v7.widget.AppCompatButton implements V
         super(context, attrs);
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mBounds = new Rect( );
+        mPaint.setStrokeWidth(5);
         //layout =
         this.setClickable(false);
     }
@@ -55,16 +58,89 @@ public class Card extends android.support.v7.widget.AppCompatButton implements V
         Log.i("layout",""+layout);
         //canvas.drawRect(0, 0, getWidth(), getHeight(), mPaint);
         if(serialNumber!=0) {
-            mPaint.setColor(Color.BLACK);
+
+            CardPhraser.setCard(this,serialNumber);
+            this.draw(canvas,getWidth(),getHeight());
+            /*mPaint.setColor(Color.BLACK);
             mPaint.setTextSize(60);
             String text = DigitsPhraser.phrase(serialNumber);
             mPaint.getTextBounds(text, 0, text.length( ), mBounds);
             float textWidth = mBounds.width( );
             float textHeight = mBounds.height( );
             canvas.drawText(text, getWidth( ) / 2 - textWidth / 2, getHeight( ) / 2
-                    + textHeight / 2, mPaint);
+                    + textHeight / 2, mPaint);*/
+
         }
     }
+
+    void draw(Canvas canvas, int width, int height) {
+        // set the default paint style
+        setColor(mPaint);
+        // computes the topmost point
+        int startY = (36 - 16*number)*height/96;
+        // draw as many shapes as this.number
+        for (int i = 0; i <= number; i++) {
+            Log.i("number",""+number);
+            RectF r = new RectF(width/8, startY + i * height/3, width*7/8, startY + i * height/3 + height/4);
+            drawFilledShape(canvas, mPaint, r);
+        }
+    }
+
+    private void setColor(Paint mPaint){
+        switch (this.color){
+            case RED:
+                mPaint.setColor(Color.RED);
+                break;
+            case BLUE:
+                mPaint.setColor(Color.BLUE);
+                break;
+            case GREEN:
+                mPaint.setColor(Color.GREEN);
+                break;
+            default: new Error("invalid color");
+        }
+    }
+
+    private void drawShape(Canvas canvas, Paint mPaint, RectF r) {
+        switch (shape) {
+            case CIRCLE:
+                canvas.drawOval(r, mPaint);
+                break;
+            case RECTANGLE:
+                canvas.drawRect(r, mPaint);
+                break;
+            case RHOMBUS:
+                canvas.drawPath(diamond(r), mPaint);
+                break;
+            default: new Error("invalid shape");
+        }
+    }
+
+    private void drawFilledShape(Canvas canvas, Paint mPaint, RectF r) {
+        switch (fill) {
+            case VIDE: mPaint.setStyle(Paint.Style.STROKE); drawShape(canvas, mPaint, r); break;
+            case HATCH:
+                // in case of intermediate filling, we draw concentric copies of the same shape
+                mPaint.setStyle(Paint.Style.STROKE);
+                for (int i = 0; i < r.width()/2; i+=6) {
+                    drawShape(canvas, mPaint, new RectF(r.left + i, r.top + i * r.height()/r.width(), r.right - i, r.bottom - i * r.height()/r.width()));
+                }
+                break;
+            case PLEIN: mPaint.setStyle(Paint.Style.FILL); drawShape(canvas, mPaint, r); break;
+            default: new Error("invalid filling");
+        }
+    }
+
+    private Path diamond(RectF r) {
+        Path p = new Path();
+        p.moveTo(r.left, r.centerY());
+        p.lineTo(r.centerX(), r.top);
+        p.lineTo(r.right, r.centerY());
+        p.lineTo(r.centerX(), r.bottom);
+        p.lineTo(r.left, r.centerY());
+        return p;
+    }
+
 
     @Override
     public void onClick(View v) {

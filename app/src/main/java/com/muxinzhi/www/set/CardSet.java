@@ -66,7 +66,7 @@ public class CardSet{
     }
 
     /**
-     * 修改queue,card,
+     *
      */
     private void testValid(){
         Card a = queue.poll();
@@ -85,7 +85,7 @@ public class CardSet{
                     c.serialNumber,a.layoutNumber,b.layoutNumber,c.layoutNumber);
             if(numbers!=null){
                 showResult(a,b,c,R.drawable.bbuton_correct);
-                setCards(cc,numbers); //一个问题为如果
+                setCards(cc,numbers);
             }
 
         }else{
